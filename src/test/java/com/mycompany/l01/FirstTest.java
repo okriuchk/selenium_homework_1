@@ -1,5 +1,7 @@
 package com.mycompany.l01;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,10 +14,10 @@ import java.nio.file.Paths;
 
 public class FirstTest {
     WebDriver driver = null;
-    String baseUrl = "https://www.google.ru/";
+    String baseUrl = "https://intra.t-systems.ru";
     String expectedTitle = "Intra";
     String actualTitle = "";
-    String current_env = "firefox";
+    String current_env = "chrome";
 
     @BeforeTest
     public void initBrowser() {
@@ -34,20 +36,39 @@ public class FirstTest {
         {
             System.exit(0);
         }
+        driver.get(baseUrl);
     }
 
-    @Test
+    @Test(enabled = false)
     public void runBrowser() {
         driver.get(baseUrl);
         actualTitle = driver.getTitle();
         driver.navigate().refresh();
         driver.navigate().back();
         driver.navigate().forward();
-        Assert.assertEquals(expectedTitle, actualTitle);
+
+        if (expectedTitle.equals(actualTitle)) {
+            System.out.println("test pass");
+        }
+        else {
+            System.out.println("test failed");
+            Assert.fail();
+        }
+
     }
 
     @AfterTest
     public void closeBrowser() {
         driver.quit();
+    }
+
+
+    public boolean isElementPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }
