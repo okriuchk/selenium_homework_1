@@ -5,6 +5,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -24,12 +26,18 @@ public class FirstTest {
         if (current_env.equals("firefox")) {
             String pathToGeckoDriver = Paths.get("C:\\webdrivers\\geckodriver\\geckodriver.exe").toAbsolutePath().toString();
             System.setProperty("webdriver.gecko.driver", pathToGeckoDriver);
+            System.setProperty("webdriver.firefox.marionette", "false");
             driver = new FirefoxDriver();
             driver.manage().window().maximize();
         }
         else if (current_env.equals("chrome")){
             System.setProperty("webdriver.chrome.driver","C:\\webdrivers\\chromedriver\\chromedriver.exe");
             driver = new ChromeDriver();
+            driver.manage().window().maximize();
+        }
+        else if (current_env.equals("opera")){
+            System.setProperty("webdriver.opera.driver","C:\\webdrivers\\operadriver\\operadriver.exe");
+            driver = new OperaDriver();
             driver.manage().window().maximize();
         }
         else
